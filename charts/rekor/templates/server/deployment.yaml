@@ -62,6 +62,9 @@ spec:
                 configMapKeyRef:
                   name: {{ template "rekor.config" . }}
                   key: {{ .Values.server.config.key }}
+{{- if eq (.Values.searchIndex).storageProvider "mysql" }}
+{{- include "searchIndex.mysql.envCredentials" . | indent 12 }}
+{{- end }}
           args:
 {{  include "rekor.server.args" . | indent 12 }}
           ports:
